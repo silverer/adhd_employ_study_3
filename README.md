@@ -30,6 +30,8 @@ This study was [preregistered](https://osf.io/t8wb6/?view_only=3a6a25131e9d446c9
 
 4. `data/facet_names.csv` contains information regarding the facet items and labels.
 
+5. `data/study2_clean_survey_data.csv` contains the cleaned data from Study 2 to compare average scores in lower stakes (Study 2) with those in higher stakes (Study 3). Available from the authors upon request. 
+
 ## Packages
 
 This project uses a number of packages. Please see the code files for a complete list. One package, `statstring`, was developed by the corresponding author. To download this package, use `devtools::install_github(silverer/statstring)`. 
