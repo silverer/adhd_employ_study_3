@@ -426,6 +426,7 @@ do.pw <- function(longdat, comp.name){
   return.list[["anova"]] = tmp_tabs
   #pairwise between comparison
   pw.btwn = tmp %>% 
+    group_by(FL_35_DO) %>% 
     t_test(outcome.var~adhd, 
            p.adjust.method = "none",
            var.equal=T) 
@@ -434,10 +435,11 @@ do.pw <- function(longdat, comp.name){
   pw.btwn = pw.btwn %>% 
     left_join(
       tmp %>% 
+        group_by(FL_35_DO) %>% 
         cohens_d(outcome.var~adhd,
-           var.equal=T, ci=T) %>% 
-        select(.y., effsize,magnitude,conf.low,conf.high),
-      by = ".y.") 
+           var.equal=T, ci=F) %>% 
+        select(.y., FL_35_DO, effsize,magnitude),
+      by = c(".y.", "FL_35_DO")) 
   pw.tmp = pw.btwn %>% 
     mutate(.y. = comp.name) %>% 
     adjust_pvalue(method="fdr")
@@ -487,9 +489,19 @@ write.xlsx(anova_wide, paste0(output, "rstatix_results.xlsx"))
 ```
 
 ```{r}
+write.csv(pw_result, paste0(output, "pairwise_comparisons.csv"))
+```
+
+```{r}
 anova_wide %>% 
   flextable()
 ```
+
+
+
+
+
+
 ```{r}
 create_plot <- function(emm.obj, title){
   #plot outputs
@@ -656,23 +668,6 @@ p<-slope.res %>%
           strip.text.x = element_text(size = 12))
 cowplot::save_plot(paste0(output, "continuous_symptom_compare.png"), p)
 ```
-
-
-
-
-```{r}
-# p_load(effects)
-# low.adhd <- mean(df.all$asrs_sum) - sd(df.all$asrs_sum)
-# hi.adhd <- mean(df.all$asrs_sum) + sd(df.all$asrs_sum)
-# em.obj <- effect(c("asrs_sum*FL_35_DO"),
-#                mod = mod, 
-#                xlevels = list(asrs_sum=c(low.adhd,
-#                                          mean(df.all$asrs_sum),
-#                                          hi.adhd)))
-# plot(em.obj,multiline = T)
-```
-
-
 
 ## Exploratory--Predictive validity
 
