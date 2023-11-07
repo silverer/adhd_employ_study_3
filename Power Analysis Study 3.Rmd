@@ -1,0 +1,74 @@
+---
+title: "ADHD Study 2 Power Analysis"
+author: "Elisabeth R Silver"
+date: '2022-06-07'
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(pacman)
+p_load(tidyverse, stats, pwr2)
+set.seed(1234)
+filter <- dplyr::filter
+select <- dplyr::select
+```
+
+## Setting Parameters
+
+This power analysis uses the `pwr2` package to determine the observed power for a given effect size and sample size in a 2-way between-subjects ANOVA. The factors are ADHD status (between: ADHD vs. non-ADHD) and type of conscientiousness item (between: work-specific vs. decontextualized conscientiousness items).
+
+We will assume a medium effect ( _f_ = .25) of factor A (ADHD status) and a small effect ( _f_ = .10) of factor B (general vs. work-specific frame of reference). 
+
+We will assess power at varying numbers of participants, starting with 150 participants in each group and ending with 250 in each group. Below, `size.A` refers to the size of the two groups in factor A (e.g., 150 participants with ADHD, 150 without) and `size.B` refers to the size of the two groups in factor B (e.g., 150 participants respond to decontextualized items, 150 respond to work-specific items).
+
+```{r}
+pwr.2way(a=2,b=2,
+         alpha=.05,
+         f.A=.25,f.B=.1,
+         size.A=150,
+         size.B=150)
+```
+
+```{r}
+pwr.2way(a=2,b=2,
+         alpha=.05,
+         f.A=.25,f.B=.1,
+         size.A=175,
+         size.B=175)
+```
+
+```{r}
+pwr.2way(a=2,b=2,
+         alpha=.05,
+         f.A=.25,f.B=.1,
+         size.A=200,
+         size.B=200)
+```
+```{r}
+pwr.2way(a=2,b=2,
+         alpha=.05,
+         f.A=.25,f.B=.1,
+         size.A=225,
+         size.B=225)
+```
+```{r}
+pwr.2way(a=2,b=2,
+         alpha=.05,
+         f.A=.25,f.B=.1,
+         size.A=250,
+         size.B=250)
+```
+
+Based on the power analysis, it looks like  400 total participants would yield adequate power (80%). However, it is unlikely that the design will be fully balanced due to participant exclusions (i.e., failing attention check or not responding to key questions). Thus, recruiting 500 total participants (250 with ADHD, 250 without; 250 in work-specific, 250 in decontextualized) would ensure that the study is adequately powered. 
+
+
+
+
+

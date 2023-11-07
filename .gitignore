@@ -1,0 +1,4 @@
+data/data_adhd.csv
+data/data_nadhd.csv
+data/study2_clean_survey_data.csv
+calculate_adhd_scores.R

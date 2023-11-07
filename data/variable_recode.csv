@@ -1,0 +1,88 @@
+og_varname,rev_score,clean_description,facet,facet_name
+StartDate,NA,Start Date,NA,NA
+EndDate,NA,End Date,NA,NA
+Status,NA,Response Type,NA,NA
+Progress,NA,Progress,NA,NA
+Duration (in seconds),NA,Duration (in seconds),NA,NA
+Finished,NA,Finished,NA,NA
+RecordedDate,NA,Recorded Date,NA,NA
+ResponseId,NA,Response ID,NA,NA
+DistributionChannel,NA,Distribution Channel,NA,NA
+UserLanguage,NA,User Language,NA,NA
+Q_RecaptchaScore,NA,Q_RecaptchaScore,NA,NA
+consent,NA,,NA,NA
+C1_1,0,Complete tasks successfully.,C1,self-efficacy
+C1_2,0,Excel in what I do.,C1,self-efficacy
+C1_3,0,Handle tasks smoothly.,C1,self-efficacy
+C1_4,0,Know how to get things done.,C1,self-efficacy
+C2_1,0,Like to tidy up.,C2,orderliness
+C2_2,1,Often forget to put things back in their proper place.,C2,orderliness
+C2_3,1,Leave a mess in my room.,C2,orderliness
+C2_4,1,Leave my belongings around.,C2,orderliness
+C3_1,0,Keep my promises.,C3,dutifulness
+C3_2,0,Tell the truth.,C3,dutifulness
+C3_3,1,Break rules.,C3,dutifulness
+C3_4,1,Break my promises.,C3,dutifulness
+C4_1,0,Do more than what's expected of me.,C4,achievement-striving
+C4_2,0,Work hard.,C4,achievement-striving
+C4_3,1,Put little time and effort into my work.,C4,achievement-striving
+C4_4,1,Do just enough work to get by.,C4,achievement-striving
+C5_1,0,Am always prepared.,C5,self-discipline
+C5_2,0,Carry out my plans.,C5,self-discipline
+C5_3,1,Waste my time.,C5,self-discipline
+C5_4,1,Have difficulty starting tasks.,C5,self-discipline
+C6_1,1,Jump into things without thinking.,C6,cautiousness
+C6_2,1,Make rash decisions.,C6,cautiousness
+C6_3,1,Rush into things.,C6,cautiousness
+C6_4,1,Act without thinking.,C6,cautiousness
+age,NA,What is your age in years?,NA,NA
+gender,NA,Selected Choice,NA,NA
+gender_4_TEXT,NA,My gender isn't listed above: ,NA,NA
+race,NA,Selected Choice,NA,NA
+race_7_TEXT,NA,My race isn't listed above: ,NA,NA
+education,NA,What is the highest level of school you have completed or the highest degree you have earned?,NA,NA
+income,NA,Information about income is important to understand. Would you please give your best guess? Please choose the answer that includes your household's income in 2021 before taxes.,NA,NA
+WC1_1,0,Complete work tasks successfully.,C1,self-efficacy
+WC1_2,0,Excel in what I do at work.,C1,self-efficacy
+WC1_3,0,Handle work tasks smoothly.,C1,self-efficacy
+WC1_4,0,Know how to get things done at work.,C1,self-efficacy
+WC2_1,0,Like to tidy up at work.,C2,orderliness
+WC2_2,1,Often forget to put things back in their proper place at work.,C2,orderliness
+WC2_3,1,Leave a mess in my workspace.,C2,orderliness
+WC2_4,1,Leave my belongings around at work.,C2,orderliness
+WC3_1,0,Keep my promises at work.,C3,dutifulness
+WC3_2,0,Tell the truth at work.,C3,dutifulness
+WC3_3,1,Break rules at my job.,C3,dutifulness
+WC3_4,1,Break my promises at work.,C3,dutifulness
+WC4_1,0,Do more than what's expected of me at my job.,C4,achievement-striving
+WC4_2,0,Work hard.,C4,achievement-striving
+WC4_3,1,Put little time and effort into my work.,C4,achievement-striving
+WC4_4,1,Do just enough work to get by.,C4,achievement-striving
+WC5_1,0,Am always prepared at work.,C5,self-discipline
+WC5_2,0,Carry out my plans at work.,C5,self-discipline
+WC5_3,1,Waste my time at work.,C5,self-discipline
+WC5_4,1,Have difficulty starting work tasks.,C5,self-discipline
+WC6_1,1,Jump into things without thinking in my job.,C6,cautiousness
+WC6_2,1,Make rash decisions at work.,C6,cautiousness
+WC6_3,1,Rush into things at work.,C6,cautiousness
+WC6_4,1,Act without thinking at work.,C6,cautiousness
+cwb_1,,Purposely wasted your employer’s materials/supplies.,NA,NA
+cwb_2,,Complained about insignificant things at work.,NA,NA
+cwb_3,,Told people outside the job what a lousy place you work for.,NA,NA
+cwb_4,,Came to work late without permission.,NA,NA
+cwb_5,,Stayed home from work and said you were sick when you weren’t.,NA,NA
+cwb_6,, Insulted someone about their job performance.,NA,NA
+cwb_7,,Made fun of someone’s personal life.,NA,NA
+cwb_8,,Ignored someone at work.,NA,NA
+cwb_9,,Started an argument with someone at work.,NA,NA
+cwb_10,,Insulted or made fun of someone at work.,NA,NA
+ocb_1,,"Took time to advise, coach, or mentor a co-worker.",NA,NA
+ocb_2,,Helped a co-worker learn new skills or shared job knowledge.,NA,NA
+ocb_3,,Helped new employees get oriented to the job.,NA,NA
+ocb_4,,Lent a compassionate ear when someone at work had a work problem.,NA,NA
+ocb_5,,Offered suggestions to improve how work is done.,NA,NA
+ocb_6,,Helped a co-worker who had too much to do.,NA,NA
+ocb_7,,Volunteered for extra work assignments.,NA,NA
+ocb_8,,Worked weekends or other days off to complete a project or task.,NA,NA
+ocb_9,,Volunteered to attend meetings or work on committees on your own time.,NA,NA
+ocb_10,,Gave up meal and/or other breaks to complete work.,NA,NA
