@@ -497,9 +497,66 @@ anova_wide %>%
   flextable()
 ```
 
+Plot conscientiousness by ADHD and by FOR:
 
+```{r}
+long.df <- df.all %>% 
+  select(adhd, FL_35_DO, all_of(analysis.cols), consc.gen) %>% 
+  pivot_longer(cols=all_of(c(analysis.cols, "consc.gen")))
+```
 
+```{r}
+p.adhd <- long.df %>% 
+  mutate(adhd = factor(adhd, levels = c("Non-ADHD", "ADHD")),
+         name = str_replace(name, "consc.gen", "Conscientiousness"),
+         name = str_replace_all(name, "[.]", "-"),
+         name = str_to_title(name)) %>% 
+  ggplot(aes(x=adhd, y = value, group=adhd))+
+  geom_boxplot(aes(colour=adhd), position="dodge2")+
+  facet_wrap(~name)+
+  theme_bw()+
+  theme(panel.grid.major=element_blank(),
+          panel.grid.minor=element_blank(),
+          panel.grid = element_blank(),
+          text = element_text(family="Times"),
+          axis.text=element_text(size=12),
+          title = element_text(size = 12),
+          legend.title = element_blank(),
+          legend.position ="bottom",
+          legend.text = element_text(size = 12),
+          axis.title.x = element_blank(),
+          strip.text.x = element_text(size = 11))+
+  xlab("")+
+  ylab("Score")
+cowplot::save_plot(paste0(output,"adhd_nadhd_comparison.png"), p.adhd)
+```
 
+```{r}
+p.for <- long.df %>% 
+  mutate(FL_35_DO = str_replace(FL_35_DO, "work_att", "Work"),
+         FL_35_DO = str_replace(FL_35_DO, "gen_attn", "General"),
+         name = str_replace(name, "consc.gen", "Conscientiousness"),
+         name = str_replace_all(name, "[.]", "-"),
+         name = str_to_title(name)) %>% 
+  ggplot(aes(x=FL_35_DO, y = value, group=FL_35_DO))+
+  geom_boxplot(aes(colour=FL_35_DO), position="dodge2")+
+  facet_wrap(~name)+
+  theme_bw()+
+  theme(panel.grid.major=element_blank(),
+          panel.grid.minor=element_blank(),
+          panel.grid = element_blank(),
+          text = element_text(family="Times"),
+          axis.text=element_text(size=12),
+          title = element_text(size = 12),
+          legend.title = element_blank(),
+          legend.position ="bottom",
+          legend.text = element_text(size = 12),
+          axis.title.x = element_blank(),
+          strip.text.x = element_text(size = 11))+
+  xlab("")+
+  ylab("Score")
+cowplot::save_plot(paste0(output,"work_gen_comparison.png"), p.for)
+```
 
 
 ```{r}
@@ -611,7 +668,6 @@ for(i in 1:length(analysis.cols)){
   slopests[[analysis.cols[i]]] <- tmp.ef
 }
 
-
 slope.res <- bind_rows(slopests)
 sim.slopes.res <- bind_rows(sim.slopes,.id="outcome")
 slope.diffs.res <- bind_rows(slope.diffs,.id="outcome")
@@ -637,6 +693,7 @@ write.csv(lm.res.wide, paste0(output, "continuous_symptoms_results.csv"))
 write.csv(slope.diffs.res, paste0(output, "slope_difference_tests.csv"))
 write.csv(sim.slopes.res, paste0(output, "simple_slopes_tests.csv"))
 ```
+
 
 ```{r}
 p<-slope.res %>% 
