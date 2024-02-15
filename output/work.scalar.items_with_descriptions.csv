@@ -1,0 +1,5 @@
+,id,lhs,op,rhs,user,block,group,free,ustart,exo,label,plabel,start,est,se,eq,
+1,12,duty,=~,R_C3_4,1,1,1,9,NA,0,.p12.,.p12.,1.095417902,1.103394922,0.083664306,duty =~ R_C3_4,Break my promises.
+2,72,C1_3,~1,,0,1,1,66,NA,0,.p72.,.p72.,4.408163265,4.379621965,0.04504274,C1_3 ~1 ,Handle tasks smoothly.
+3,74,C2_1,~1,,0,1,1,68,NA,0,.p74.,.p74.,3.913265306,4.103219841,0.056765053,C2_1 ~1 ,Like to tidy up.
+4,89,R_C5_4,~1,,0,1,1,83,NA,0,.p89.,.p89.,4.005419992,3.904739591,0.080195221,R_C5_4 ~1 ,Have difficulty starting tasks.

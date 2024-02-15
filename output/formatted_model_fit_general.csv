@@ -1,0 +1,11 @@
+Model,Chi-square,df,CFI,TLI,RMSEA (95% CI),srmr,Model Comparison
+General Conscientiousness ,,,,,,,
+M1 Configural Invariance,1168.69,474,0.89,0.87,".08 (.08, .09)",0.07,
+M2 Metric Invariance,1186.16,492,0.89,0.88,".08 (.08, .09)",0.08,"X2(18) = 17.47, p = .49"
+M3 Scalar Invariance,1233.02,510,0.88,0.88,".08 (.08, .09)",0.08,"X2(18) = 46.86, p < .001"
+M3a Partial Scalar Invariance,1187.03,501,0.89,0.88,".08 (.07, .09)",0.08,"X2(9) = 0.88, p = .99"
+Work-Specific Conscientiousness,,,,,,,
+M1 Configural Invariance,1115.1,474,0.88,0.86,".08 (.07, .09)",0.07,
+M2 Metric Invariance,1141.24,492,0.88,0.87,".08 (.07, .09)",0.07,"X2(18) = 26.15, p = .10"
+M3 Scalar Invariance,1177.48,510,0.88,0.87,".08 (.07, .09)",0.08,"X2(18) = 36.24, p = .007"
+M3a Partial Scalar Invariance,1145.27,506,0.88,0.87,".08 (.07, .08)",0.07,"X2(14) = 4.03, p = .99"

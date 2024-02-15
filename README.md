@@ -20,6 +20,8 @@ This study was [preregistered](https://osf.io/t8wb6/?view_only=3a6a25131e9d446c9
 
 4. `calculate_adhd_scores_public.R` sums participants' scores on the ADHD symptom severity screener without using the proprietary algorithm. To prevent file reference issues, replace `source("calculate_adhd_scores.R")` with `source("calculate_adhd_scores_public.R")`. The results will be similar.
 
+5. `Screen Positive Study 3 Cleaning and Analysis.Rmd` is a markdown file identical to the main cleaning and analysis file, but using a different method to allocate participants into ADHD and non-ADHD groups (exploratory analysis).
+
 ## Input files
 
 1. `data/data_adhd.csv` contains the original survey data collected from Qualtrics from the ADHD subsample. This is available to researchers upon request.
@@ -30,7 +32,7 @@ This study was [preregistered](https://osf.io/t8wb6/?view_only=3a6a25131e9d446c9
 
 4. `data/facet_names.csv` contains information regarding the facet items and labels.
 
-5. `data/study2_clean_survey_data.csv` contains the cleaned data from Study 2 to compare average scores in lower stakes (Study 2) with those in higher stakes (Study 3). Available from the authors upon request. 
+5. `data/study2_clean_survey_data.csv` contains the cleaned data from Study 2 to compare average scores in lower stakes (Study 2) with those in higher stakes (Study 3). Also used to create supersample for CFA analysis. Available from the authors upon request. 
 
 ## Packages
 

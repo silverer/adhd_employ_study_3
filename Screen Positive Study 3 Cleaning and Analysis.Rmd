@@ -360,22 +360,30 @@ tmp.res <- get_anova_table(res)
 tmp.res["result"] <- format_anova_string(tmp.res)
 cat(paste0("There was a significant effect of ADHD self-identification on ADHD symptom severity scores, ",
            tmp.res$result[1], ". "))
-tukeyres <- df.all %>% tukey_hsd(asrs_sum~adhd_yn)
-df.all["adhd"] <- if_else(df.all$adhd_yn == "No",
-                      "Non-ADHD", "ADHD")
-cat(paste0("\"No\" respondents ( _M_ = ", msd$m[1], ", _SD_ = ", msd$sd[1],
-           "N = ", msd$n[1],") reported fewer symptoms than \"Yes\" respondents ( _M_ = ",
-           msd$m[3],", _SD_ = ", msd$sd[3],
-           " N = ", msd$n[3],"), ",
-           format_pval_apa(tukeyres$p.adj[2]), 
-           ", and \"Not sure\" respondents ( _M_ = ",
-           msd$m[2], ", _SD_ = ", msd$sd[2],
-           " N = ", msd$n[2], "), ",
-           format_pval_apa(tukeyres$p.adj[1]), "."))
-cat(paste0("\"Yes\" respondents did not significantly differ ",
-           "from \"Not sure\" respondents, ",
-           format_pval_apa(tukeyres$p.adj[3])))
+df.all$adhd <- ifelse(df.all$adhd_yn %in% c("Yes", "Not sure"),
+                  "ADHD",
+                  ifelse(df.all$adhd_yn=="No",
+                         "Non-ADHD", ""))
+df.all$adhd.screen <- ifelse(df.all$adhd_yn=="Yes",
+                         "ADHD",
+                         ifelse(df.all$adhd_yn=="No",
+                                "Non-ADHD",
+                                ifelse((df.all$adhd_yn=="Not sure"&df$asrs_sum>=14),
+                                       "ADHD", "Non-ADHD")))
+with(df.all, table(adhd, adhd.screen))
+
 ```
+```{r}
+#assign new adhd.screen variable to the adhd variable for remaining analyses
+df.all$adhd <- ifelse(df.all$adhd_yn=="Yes",
+                         "ADHD",
+                         ifelse(df.all$adhd_yn=="No",
+                                "Non-ADHD",
+                                ifelse((df.all$adhd_yn=="Not sure"&df.all$asrs_sum>=14),
+                                       "ADHD", "Non-ADHD")))
+```
+
+
 ## Descriptives
 
 Should the correlation table include separate correlations for people who completed the work vs. general conscientiousness forms (i.e., on upper and lower triangle)?
@@ -400,12 +408,12 @@ cor.gensamp <- data.frame(apa.cor.table(cor_vars %>%
                                           filter(FL_35_DO=="gen_attn"))$table.body)
 cor.gensamp <- cor.gensamp %>% 
   filter(M != " ")
-write.csv(cor.gensamp, paste0(output, "general_FOR_correlations.csv"))
+#write.csv(cor.gensamp, paste0(output, "general_FOR_correlations.csv"))
 cor.worksamp <- data.frame(apa.cor.table(cor_vars %>% 
                                            filter(FL_35_DO=="work_att"))$table.body)
 cor.worksamp <- cor.worksamp %>% 
   filter(M != " ")
-write.csv(cor.worksamp, paste0(output,"work_FOR_correlations.csv"))
+#write.csv(cor.worksamp, paste0(output,"work_FOR_correlations.csv"))
 ```
 
 ## Analyses
@@ -485,11 +493,11 @@ anova_wide <- anova_tabs %>%
   pivot_wider(id_cols = Effect,
               names_from=outcome,
               values_from = stat2)
-write.xlsx(anova_wide, paste0(output, "rstatix_results.xlsx"))
+write.xlsx(anova_wide, paste0(output, "screen_rstatix_results.xlsx"))
 ```
 
 ```{r}
-write.csv(pw_result, paste0(output, "pairwise_comparisons.csv"))
+write.csv(pw_result, paste0(output, "screen_pairwise_comparisons.csv"))
 ```
 
 ```{r}
@@ -498,6 +506,7 @@ anova_wide %>%
 ```
 
 ```{r}
+#get estimated conditional means by condition for easy plotting
 tmp.analysis <- c("consc.gen", analysis.cols)
 lm.list <- list()
 for(i in 1:length(tmp.analysis)){
@@ -547,72 +556,10 @@ p.all <- em.df %>%
           axis.title.x = element_blank(),
           strip.text.x = element_text(size = 11))
 p.all
-cowplot::save_plot("jobtalk_plots_study3.png",p.all,dpi=400)
+#cowplot::save_plot("jobtalk_plots_study3.png",p.all,dpi=400)
 ```
 
 
-Plot conscientiousness by ADHD and by FOR:
-
-```{r}
-long.df <- df.all %>% 
-  select(adhd, FL_35_DO, all_of(analysis.cols), consc.gen) %>% 
-  pivot_longer(cols=all_of(c(analysis.cols, "consc.gen")))
-```
-
-```{r}
-
-p.adhd <- long.df %>% 
-  mutate(adhd = factor(adhd, levels = c("Non-ADHD", "ADHD")),
-         name = str_replace(name, "consc.gen", "Conscientiousness"),
-         name = str_replace_all(name, "[.]", "-"),
-         name = str_to_title(name)) %>% 
-  ggplot(aes(x=adhd, y = value, group=adhd))+
-  geom_boxplot(aes(colour=adhd))+
-  facet_wrap(~name)+
-  theme_bw()+
-  theme(panel.grid.major=element_blank(),
-          panel.grid.minor=element_blank(),
-          panel.grid = element_blank(),
-          text = element_text(family="Times"),
-          axis.text=element_text(size=12),
-          title = element_text(size = 12),
-          legend.title = element_blank(),
-          legend.position ="bottom",
-          legend.text = element_text(size = 12),
-          axis.title.x = element_blank(),
-          strip.text.x = element_text(size = 11))+
-  xlab("")+
-  ylab("Score")
-p.adhd
-cowplot::save_plot(paste0(output,"adhd_nadhd_comparison.png"), p.adhd)
-```
-
-```{r}
-p.for <- long.df %>% 
-  mutate(FL_35_DO = str_replace(FL_35_DO, "work_att", "Work"),
-         FL_35_DO = str_replace(FL_35_DO, "gen_attn", "General"),
-         name = str_replace(name, "consc.gen", "Conscientiousness"),
-         name = str_replace_all(name, "[.]", "-"),
-         name = str_to_title(name)) %>% 
-  ggplot(aes(x=FL_35_DO, y = value, group=FL_35_DO))+
-  geom_boxplot(aes(colour=FL_35_DO), position="dodge2")+
-  facet_wrap(~name)+
-  theme_bw()+
-  theme(panel.grid.major=element_blank(),
-          panel.grid.minor=element_blank(),
-          panel.grid = element_blank(),
-          text = element_text(family="Times"),
-          axis.text=element_text(size=12),
-          title = element_text(size = 12),
-          legend.title = element_blank(),
-          legend.position ="bottom",
-          legend.text = element_text(size = 12),
-          axis.title.x = element_blank(),
-          strip.text.x = element_text(size = 11))+
-  xlab("")+
-  ylab("Score")
-cowplot::save_plot(paste0(output,"work_gen_comparison.png"), p.for)
-```
 
 
 ```{r}
@@ -670,7 +617,7 @@ p<-ggarrange(self.disc.graph, order.graph,
           ncol=2, nrow=1, 
           common.legend = TRUE, legend="bottom")
 
-cowplot::save_plot(paste0(output, "order_selfdisc.png"), p)
+#cowplot::save_plot(paste0(output, "order_selfdisc.png"), p)
 ```
 
 ## Exploratory--ADHD symptoms as continuous moderator
