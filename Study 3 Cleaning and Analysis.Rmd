@@ -1286,7 +1286,7 @@ saveFile(metric.config.comp,
          file=paste0(output,"work.metric.config.comp.csv"), writeArgs = list(sep=",",
                                                                append=F))
 
-summary(metric.config.comp)#looks like the simpler model (metric invariance) fits better than the complex model (configural invariance)
+summary(metric.config.comp)
 fitm.metric <- t(data.frame(fitMeasures(metric,
             c("chisq", "df", "pvalue", "cfi", "tli", "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
               "srmr"))))
@@ -1309,7 +1309,7 @@ scalar <- cfa(facstruc,
               group.equal=c("loadings",
                             "intercepts"))
 #summary(scalar,fit.measures=TRUE) 
-anova(scalar, metric)# the ANOVA is significant, which suggests noninvariance
+anova(scalar, metric)
 scalar.metric.comp <- compareFit(metric, scalar)
 write.csv(data.frame(),paste0(output,"work.scalar.metric.comp.csv"))
 saveFile(scalar.metric.comp,
@@ -1329,7 +1329,7 @@ fitm.scalar <- t(data.frame(fitMeasures(scalar,
 fitm.scalar <- apply(fitm.scalar, 2, function(x) number(x, accuracy = .01))
 fitm.scalar["Model"] <- "M3 Scalar Invariance"
 fitm.config<- rbind(fitm.config, fitm.scalar)
-summary(scalar.metric.comp)#looks like the simpler model (metric invariance) fits worse than the more complex model (scalar)
+summary(scalar.metric.comp)
 ```
 
 Inspect the items that are likely sources of non-invariance:
@@ -1348,7 +1348,6 @@ naughty_item_wording <- facet_items %>%
   filter(new_varname %in% c(naughty_items$lhs, naughty_items$rhs))
 naughty_item_wording$clean_var_desc <- str_replace(naughty_item_wording$clean_description, "[.]", "")
 write.csv(naughty_items,paste0(output,"work.scalar.items.csv"))
-
 ```
 Inspect the items that are likely sources of non-invariance:
 ```{r}
@@ -1362,8 +1361,22 @@ scalar <- cfa(facstruc,
               group.equal=c("loadings",
                             "intercepts"),
               group.partial=naughty.scalar)
+params.part.scalar <- data.frame(parTable(scalar))
+params.part.scalar$eq <-str_c(params.part.scalar$lhs, " ", params.part.scalar$op, " ", params.part.scalar$rhs)
+params.part.scalar <- params.part.scalar %>% 
+  filter(eq %in% naughty.scalar)
+params.part.scalar$est.se <- str_c(number(params.part.scalar$est, accuracy = .01),
+                                   " (",
+                                   number(params.part.scalar$se, accuracy = .01),
+                                   ")")
+params.part.scalar$group.f <- ifelse(params.part.scalar$group==1, "NonADHD",
+                                     "ADHD")
+params.part.scalar <- params.part.scalar %>% 
+  select(eq, group.f, est.se) %>% 
+  pivot_wider(names_from=group.f,values_from=est.se, id_cols=eq)
+write.csv(params.part.scalar, paste0(output, "work_item_ests_pscalar.csv"))
 #summary(scalar,fit.measures=TRUE) 
-anova(scalar, metric)# the ANOVA is significant, which suggests noninvariance
+anova(scalar, metric)
 scalar.metric.comp <- compareFit(metric, scalar)
 #save the model comparisons locally
 write.csv(data.frame(), 
@@ -1415,7 +1428,7 @@ config <- cfa(facstruc,
               group="adhd",
               missing="fiml",
               estimator="ML")
-#summary(config,fit.measures=TRUE)#seems like the multigroup model fit is acceptable
+#summary(config,fit.measures=TRUE)
 #create fit dataframe
 fitm.config <- t(data.frame(fitMeasures(config,
             c("chisq", "df", "pvalue", "cfi", "tli", "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
@@ -1455,7 +1468,7 @@ saveFile(metric.config.comp,
          file=paste0(output,"metric.config.comp.csv"), writeArgs = list(sep=",",
                                                                append=F))
 
-summary(metric.config.comp)#looks like the simpler model (metric invariance) fits better than the complex model (configural invariance)
+summary(metric.config.comp)
 fitm.metric <- t(data.frame(fitMeasures(metric,
             c("chisq", "df", "pvalue", "cfi", "tli", "rmsea", "rmsea.ci.lower", "rmsea.ci.upper",
               "srmr"))))
@@ -1478,7 +1491,7 @@ scalar <- cfa(facstruc,
               group.equal=c("loadings",
                             "intercepts"))
 #summary(scalar,fit.measures=TRUE) 
-anova(scalar, metric)# the ANOVA is significant, which suggests noninvariance
+anova(scalar, metric)
 scalar.metric.comp <- compareFit(metric, scalar)
 #save the model comparisons locally
 write.csv(data.frame(), 
@@ -1521,6 +1534,9 @@ naughty_item_wording$clean_var_desc <- str_replace(naughty_item_wording$clean_de
 naughty.scalar <- naughty_items$eq[!duplicated(naughty_items$eq)]
 write.csv(naughty_items,paste0(output,"gen.scalar.items.csv"))
 ```
+
+Refit the model with partial scalar invariance
+
 ```{r}
 cat("  \nSCALAR INVARIANCE  \n")
 scalar <- cfa(facstruc,
@@ -1532,7 +1548,21 @@ scalar <- cfa(facstruc,
                             "intercepts"),
               group.partial=naughty.scalar)
 #summary(scalar,fit.measures=TRUE) 
-anova(scalar, metric)# the ANOVA is significant, which suggests noninvariance
+params.part.scalar <- data.frame(parTable(scalar))
+params.part.scalar$eq <-str_c(params.part.scalar$lhs, " ", params.part.scalar$op, " ", params.part.scalar$rhs)
+params.part.scalar <- params.part.scalar %>% 
+  filter(eq %in% naughty.scalar)
+params.part.scalar$est.se <- str_c(number(params.part.scalar$est, accuracy = .01),
+                                   " (",
+                                   number(params.part.scalar$se, accuracy = .01),
+                                   ")")
+params.part.scalar$group.f <- ifelse(params.part.scalar$group==1, "NonADHD",
+                                     "ADHD")
+params.part.scalar <- params.part.scalar %>% 
+  select(eq, group.f, est.se) %>% 
+  pivot_wider(names_from=group.f,values_from=est.se, id_cols=eq)
+write.csv(params.part.scalar, paste0(output, "general_item_ests_pscalar.csv"))
+anova(scalar, metric)
 scalar.metric.comp <- compareFit(metric, scalar)
 #save the model comparisons locally
 write.csv(data.frame(), 
